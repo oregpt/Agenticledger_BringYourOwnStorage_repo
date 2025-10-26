@@ -4,7 +4,7 @@ Easy deployment of AgenticLedger's PostgreSQL database with pgvector for on-prem
 
 ## 📖 Complete Deployment Guide
 
-**👉 [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) - Start Here!**
+**👉 [FINAL CLIENT DEPLOYMENT_GUIDE_MULTIPLE OPTIONS.md](./FINAL%20CLIENT%20DEPLOYMENT_GUIDE_MULTIPLE%20OPTIONS.md) - Start Here!**
 
 This repository supports deployment to:
 - Personal computers (development)
@@ -46,7 +46,7 @@ docker-compose logs -f
 
 **Done!** Your database is running on `localhost:5432`
 
-**Next:** See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) section "Post-Deployment: Connect to AgenticLedger" to configure your connection
+**Next:** See [FINAL CLIENT DEPLOYMENT_GUIDE_MULTIPLE OPTIONS.md](./FINAL%20CLIENT%20DEPLOYMENT_GUIDE_MULTIPLE%20OPTIONS.md) section "Post-Deployment: Connect to AgenticLedger" to configure your connection
 
 ---
 
