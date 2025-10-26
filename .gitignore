@@ -1,0 +1,41 @@
+# Environment variables (NEVER commit passwords!)
+.env
+
+# Backups (can be large)
+backups/
+*.dump
+# Ignore SQL files except schema files
+*.sql
+!schema/*.sql
+
+# Docker volumes
+postgres_data/
+pgadmin_data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Node modules (if adding tests)
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
