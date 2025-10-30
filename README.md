@@ -89,13 +89,14 @@ See [MANUAL_SETUP.md](./docs/MANUAL_SETUP.md) for step-by-step instructions.
 
 - **PostgreSQL Database:** `agenticledger_customer_db`
 - **pgvector Extension:** For AI/vector search capabilities
-- **5 Tables:**
-  - `files` - Document storage
-  - `document_chunks` - Vector embeddings for RAG
-  - `conversations` - Chat sessions
-  - `messages` - Chat messages with review tracking
-  - `conversation_files` - Temporary file attachments
-- **Optimized Indexes:** For fast queries and vector search
+- **12 Tables:**
+  - **Regular Agents:** `files`, `document_chunks`
+  - **Advanced Knowledge Agents:** `advanced_folders`, `advanced_files`, `advanced_processing_jobs`, `advanced_chunks`
+  - **Simple Chat:** `conversations`, `messages`
+  - **Advanced Chat:** `advanced_conversations`, `advanced_messages`
+  - **External Platforms:** `external_conversations`, `external_messages` (Slack, Telegram, etc.)
+- **Optimized Indexes:** For fast queries and vector search (including HNSW vector index)
+- **Foreign Key Constraints:** Ensuring data integrity
 - **Dedicated User:** `platform_user` with appropriate permissions
 
 ---

@@ -1,43 +1,40 @@
--- ================================================================
--- Create Indexes for Performance
--- ================================================================
+-- ============================================================
+-- INDEXES FOR PERFORMANCE
+-- ============================================================
 
--- Files table indexes
-CREATE INDEX IF NOT EXISTS files_agent_id_idx ON files(agent_id);
-CREATE INDEX IF NOT EXISTS files_uploaded_at_idx ON files(uploaded_at DESC);
-CREATE INDEX IF NOT EXISTS files_mime_type_idx ON files(mime_type);
+-- Regular agent indexes
+CREATE INDEX IF NOT EXISTS idx_files_agent_id ON files(agent_id);
+CREATE INDEX IF NOT EXISTS idx_document_chunks_agent_id ON document_chunks(agent_id);
+CREATE INDEX IF NOT EXISTS idx_document_chunks_file_id ON document_chunks(file_id);
 
--- Document chunks indexes
-CREATE INDEX IF NOT EXISTS document_chunks_agent_id_idx ON document_chunks(agent_id);
-CREATE INDEX IF NOT EXISTS document_chunks_file_id_idx ON document_chunks(file_id);
-CREATE INDEX IF NOT EXISTS document_chunks_created_at_idx ON document_chunks(created_at DESC);
+-- Advanced agent indexes
+CREATE INDEX IF NOT EXISTS idx_advanced_folders_agent_id ON advanced_folders(agent_id);
+CREATE INDEX IF NOT EXISTS idx_advanced_files_agent_id ON advanced_files(agent_id);
+CREATE INDEX IF NOT EXISTS idx_advanced_files_folder_id ON advanced_files(folder_id);
+CREATE INDEX IF NOT EXISTS idx_advanced_chunks_agent_id ON advanced_chunks(agent_id);
+CREATE INDEX IF NOT EXISTS idx_advanced_chunks_file_id ON advanced_chunks(file_id);
 
--- Vector similarity index for semantic search
--- Using HNSW for better performance with OpenAI embeddings
-CREATE INDEX IF NOT EXISTS document_chunks_embedding_idx
-  ON document_chunks
-  USING hnsw (embedding vector_cosine_ops);
+-- Conversation indexes
+CREATE INDEX IF NOT EXISTS idx_conversations_agent_id ON conversations(agent_id);
+CREATE INDEX IF NOT EXISTS idx_messages_conversation_id ON messages(conversation_id);
 
--- Conversations indexes
-CREATE INDEX IF NOT EXISTS conversations_agent_id_idx ON conversations(agent_id);
-CREATE INDEX IF NOT EXISTS conversations_user_id_idx ON conversations(user_id);
-CREATE INDEX IF NOT EXISTS conversations_created_at_idx ON conversations(created_at DESC);
-CREATE INDEX IF NOT EXISTS conversations_updated_at_idx ON conversations(updated_at DESC);
+-- Advanced conversation indexes
+CREATE INDEX IF NOT EXISTS idx_advanced_conversations_agent_id ON advanced_conversations(agent_id);
+CREATE INDEX IF NOT EXISTS idx_advanced_conversations_user_id ON advanced_conversations(user_id);
+CREATE INDEX IF NOT EXISTS idx_advanced_messages_conversation_id ON advanced_messages(conversation_id);
 
--- Messages indexes
-CREATE INDEX IF NOT EXISTS messages_conversation_id_idx ON messages(conversation_id);
-CREATE INDEX IF NOT EXISTS messages_created_at_idx ON messages(created_at DESC);
-CREATE INDEX IF NOT EXISTS messages_review_status_idx ON messages(review_status);
-CREATE INDEX IF NOT EXISTS messages_role_idx ON messages(role);
+-- External conversation indexes
+CREATE INDEX IF NOT EXISTS idx_external_conversations_platform_id ON external_conversations(platform_id);
+CREATE INDEX IF NOT EXISTS idx_external_conversations_agent_id ON external_conversations(agent_id);
+CREATE INDEX IF NOT EXISTS idx_external_messages_conversation_id ON external_messages(conversation_id);
 
--- Conversation files indexes
-CREATE INDEX IF NOT EXISTS conversation_files_conversation_id_idx ON conversation_files(conversation_id);
-CREATE INDEX IF NOT EXISTS conversation_files_expires_at_idx ON conversation_files(expires_at);
-CREATE INDEX IF NOT EXISTS conversation_files_uploaded_at_idx ON conversation_files(uploaded_at DESC);
+-- Unique constraint for external conversations (prevent duplicate platform-chat-agent combinations)
+CREATE UNIQUE INDEX IF NOT EXISTS platform_chat_agent_unique
+ON external_conversations(platform_id, external_chat_id, agent_id);
 
--- Composite indexes for common queries
-CREATE INDEX IF NOT EXISTS messages_conversation_role_idx ON messages(conversation_id, role);
-CREATE INDEX IF NOT EXISTS document_chunks_agent_file_idx ON document_chunks(agent_id, file_id);
+-- Vector similarity search index (HNSW for performance)
+CREATE INDEX IF NOT EXISTS idx_advanced_chunks_embedding
+ON advanced_chunks USING hnsw (embedding vector_cosine_ops);
 
 -- Verification
 DO $$
